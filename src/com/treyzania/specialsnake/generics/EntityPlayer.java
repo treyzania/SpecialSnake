@@ -46,12 +46,7 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 	public boolean hasVelocity() {
 		return true;
 	}
-
-	@Override
-	public float[] getVelocities() {
-		return new float[] { this.xVel, this.yVel };
-	}
-
+	
 	@Override
 	public float getMass() {
 		return 100;

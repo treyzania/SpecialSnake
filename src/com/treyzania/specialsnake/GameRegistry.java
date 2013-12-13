@@ -2,15 +2,17 @@ package com.treyzania.specialsnake;
 
 import java.util.HashMap;
 
+import com.treyzania.specialsnake.util.SnakeGame;
+
 public class GameRegistry {
 
 	private static HashMap<String, SnakeGame> games;
 	
-	public void registerGame(String name, SnakeGame game) {
+	public static void registerGame(String name, SnakeGame game) {
 		games.put(name, game);
 	}
 	
-	public SnakeGame getGame(String name) {
+	public static SnakeGame getGame(String name) {
 		return games.get(name);
 	}
 	

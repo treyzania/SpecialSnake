@@ -9,6 +9,7 @@ public interface IModel {
 	public PointF getPosition();
 	
 	public boolean hasVelocity();
-	public float[] getVelocities();
+	public float getXVelocity();
+	public float getYVelocity();
 	
 }
