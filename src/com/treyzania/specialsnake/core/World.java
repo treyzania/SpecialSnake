@@ -2,6 +2,7 @@ package com.treyzania.specialsnake.core;
 
 import java.util.ArrayList;
 
+import com.treyzania.specialsnake.Debug;
 import com.treyzania.specialsnake.GameRegistry;
 
 public class World {
@@ -21,7 +22,7 @@ public class World {
 	
 	public EntityUpdaterThread tickThread;
 	
-	public float envWindResistanceFactor = 9F;
+	public float envWindResistanceFactor = 1F;
 	public float envMovementFrictionFactor = 0.99F;
 	public float envMinimumNetVelocity = 0.03F;
 	
@@ -30,9 +31,10 @@ public class World {
 		this.width = w;
 		this.height = h;
 		
-		this.tickThread = new EntityUpdaterThread();
-		
 		this.constituents = new ArrayList<IReal>();
+		Debug.populateEntities(constituents);
+		
+		this.tickThread = new EntityUpdaterThread();
 		
 	}
 	

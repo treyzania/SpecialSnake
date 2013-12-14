@@ -16,7 +16,6 @@ public class SnakeGame {
 	public SnakeGame() {
 		
 		this.specialEntities = new HashMap<String, Entity>();
-		this.theWorld = new World(50, 50);
 		
 	}
 	

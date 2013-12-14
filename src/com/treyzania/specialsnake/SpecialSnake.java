@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import com.treyzania.specialsnake.core.SSPanel;
 import com.treyzania.specialsnake.core.SnakeGame;
 import com.treyzania.specialsnake.core.IVelocity;
+import com.treyzania.specialsnake.core.World;
 
 public class SpecialSnake {
 
@@ -32,9 +33,8 @@ public class SpecialSnake {
 		
 		theGame = new SnakeGame();
 		GameRegistry.registerGame("main", theGame);
+		theGame.theWorld = new World(50, 50);
 		theGame.mainRenderer = new SSPanel(theGame.theWorld);
-		
-		Debug.populateEntities(theGame.theWorld.constituents);
 		
 		((IVelocity) theGame.theWorld.constituents.get(0)).setXVelocity(5);
 		((IVelocity) theGame.theWorld.constituents.get(0)).setYVelocity(5);
