@@ -53,6 +53,26 @@ public class World {
 		
 	}
 	
+	public void registerThings(IReal[] ira) {
+		
+		SSPanel ssp = GameRegistry.getGame("main").mainRenderer;
+		
+		ssp.repainting = false;
+		
+		synchronized (this.constituents) {
+			
+			for (IReal ireal : ira) {
+				
+				this.constituents.add(ireal);
+				
+			}
+			
+		}
+		
+		ssp.repainting = true;
+		
+	}
+	
 	private class EntityUpdaterThread implements Runnable {
 	
 		public CycleMeter cm;
