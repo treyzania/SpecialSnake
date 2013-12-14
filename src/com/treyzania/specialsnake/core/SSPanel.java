@@ -54,7 +54,7 @@ public class SSPanel extends JPanel implements Runnable {
 			if (ir instanceof IModel) {
 				
 				IModel im = (IModel) ir;
-				im.getModel().draw(g);;
+				im.getModel().draw(g);
 				
 			}
 			
@@ -62,6 +62,16 @@ public class SSPanel extends JPanel implements Runnable {
 		
 		String fpsText = "FPS: " + renderHandler.getUpdatesPerSecond_Fast() + " (" + renderHandler.getLatency() + " ms)";
 		g.drawString(fpsText, 20, 20);
+		
+		Entity e = (Entity) world.constituents.get(0);
+		IVelocity iv = (IVelocity) e;
+		String locText = "X: " + e.x + ", Y: " + e.y;
+		String velText = "XVel : " + iv.getXVelocity() + ", YVel: " + iv.getYVelocity();
+		g.drawString(locText, 20, 40);
+		g.drawString(velText, 20, 55);
+		
+		//String wuText = "UVs: " + world.data[World.WorldCalcValues.UVs] + ", UPFVs: " + world.data[World.WorldCalcValues.UPFVs] + ", TEs: " + world.data[World.WorldCalcValues.TEs];
+		//g.drawString(wuText, 20, 70);
 		
 		this.renderHandler.updateTime();
 		
@@ -73,6 +83,13 @@ public class SSPanel extends JPanel implements Runnable {
 		while (true) {
 			
 			this.repaint();
+			
+			try {
+				Thread.sleep(3);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 		

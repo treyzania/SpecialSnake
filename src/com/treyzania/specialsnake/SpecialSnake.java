@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 
 import com.treyzania.specialsnake.core.SSPanel;
 import com.treyzania.specialsnake.core.SnakeGame;
+import com.treyzania.specialsnake.core.IVelocity;
 
 public class SpecialSnake {
 
@@ -33,11 +34,18 @@ public class SpecialSnake {
 		GameRegistry.registerGame("main", theGame);
 		theGame.mainRenderer = new SSPanel(theGame.theWorld);
 		
+		Debug.populateEntities(theGame.theWorld.constituents);
+		
+		((IVelocity) theGame.theWorld.constituents.get(0)).setXVelocity(5);
+		((IVelocity) theGame.theWorld.constituents.get(0)).setYVelocity(5);
+		
 		frame = new JFrame();
 		frame.setSize(1280, 720);
 		frame.setResizable(false);
 		frame.setFocusable(true);
 		frame.setEnabled(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		frame.add(theGame.mainRenderer);
 		
 		frame.setVisible(true);

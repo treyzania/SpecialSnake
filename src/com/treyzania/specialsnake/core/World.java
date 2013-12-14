@@ -1,10 +1,19 @@
 package com.treyzania.specialsnake.core;
 
 import java.util.ArrayList;
+
 import com.treyzania.specialsnake.GameRegistry;
 
 public class World {
 
+	public static class WorldCalcValues {
+		public static int UVs = 0;
+		public static int UPFVs = 1;
+		public static int TEs = 2;
+	}
+	
+	public int[] data = new int[3];
+	
 	public final int width;
 	public final int height;
 	
@@ -12,9 +21,9 @@ public class World {
 	
 	public EntityUpdaterThread tickThread;
 	
-	public float envWindResistanceFactor = 0.99F;
+	public float envWindResistanceFactor = 9F;
 	public float envMovementFrictionFactor = 0.99F;
-	public float envMinimumNetVelocity = 0.01F;
+	public float envMinimumNetVelocity = 0.03F;
 	
 	public World(int w, int h) {
 		
@@ -32,15 +41,17 @@ public class World {
 	}
 	
 	private class EntityUpdaterThread implements Runnable {
-		
+	
 		public CycleMeter cm;
 		private Thread thread;
 		
-		{
+		public EntityUpdaterThread() {
+			
 			this.cm = new CycleMeter(false);
-			this.thread = new Thread();
+			this.thread = new Thread(this);
 			
 			thread.start();
+			
 		}
 		
 		@Override
@@ -66,6 +77,10 @@ public class World {
 		}
 		
 		private void updateAllEntities() {
+			
+			//data[0] = 0;
+			//data[1] = 0;
+			//data[2] = 0;
 			
 			for (IReal e : constituents) {
 				
@@ -100,16 +115,16 @@ public class World {
 			float newYVel = 0;
 			
 			// Reset if the velocity is too low, or do logic.
-			if (xVel + yVel < envMinimumNetVelocity) {
+			if (Math.abs(xVel) + Math.abs(yVel) < envMinimumNetVelocity) {
 				
-				// Reset to save CUP time.
+				// Reset to save CPU time.
 				newXVel = 0F;
 				newYVel = 0F;
 				
 			} else {
 				
 				// Do the actual calculations.
-				float mod_wind = (mass / envWindResistanceFactor) / 1000; // Let's hope this is good enough. (A.k.a. "modulation (by) wind")
+				float mod_wind = 1 - (envWindResistanceFactor / mass); // Let's hope this is good enough. (A.k.a. "modulation (by) wind")
 				float tmod_vel = mod_wind * envMovementFrictionFactor; // A.k.a. "total modulation (of) velocity"
 				
 				newXVel = xVel * tmod_vel;
@@ -120,6 +135,8 @@ public class World {
 			// Put the new values back into the object.
 			eiv.setXVelocity(newXVel);
 			eiv.setYVelocity(newYVel);
+			
+			//data[World.WorldCalcValues.UVs]++;
 			
 		}
 		
@@ -139,12 +156,16 @@ public class World {
 			
 			e.setLocation(new PointF(nx, ny));
 			
+			//data[World.WorldCalcValues.UPFVs]++;
+			
 		}
 		
 		private void it_tickEntities(IReal e) {
 			
 			ITickable eit = (ITickable) e;
 			if (eit.doTick()) eit.tick();	
+			
+			//data[World.WorldCalcValues.TEs]++;
 			
 		}
 		

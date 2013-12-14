@@ -11,15 +11,18 @@ import com.treyzania.specialsnake.core.VelocityHolder;
 public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable {
 
 	private VelocityHolder velocity;
-	public Model model;
+	private Model model;
 	
 	public EntityPlayer() {
+		
+		this.velocity = new VelocityHolder();
+		this.model = new ModelPlayer(this);
 		
 	}
 	
 	@Override
 	public boolean doTick() {
-		return true;
+		return false;
 	}
 
 	@Override

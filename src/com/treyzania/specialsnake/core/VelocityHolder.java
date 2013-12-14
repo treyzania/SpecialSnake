@@ -10,6 +10,10 @@ public class VelocityHolder {
 		this.yVel = yVel;
 	}
 	
+	public VelocityHolder() {
+		this(0, 0);
+	}
+
 	public void zero() {
 		this.xVel = 0F;
 		this.yVel = 0F;
