@@ -1,7 +1,5 @@
 package com.treyzania.specialsnake.generics;
 
-import java.util.Random;
-
 import com.treyzania.specialsnake.core.Entity;
 import com.treyzania.specialsnake.core.IModel;
 import com.treyzania.specialsnake.core.IVelocity;
@@ -43,7 +41,7 @@ public class EntityBall extends Entity implements IVelocity, IModel {
 	
 	@Override
 	public float getMass() {
-		return 50;
+		return 100;
 	}
 
 	@Override
@@ -65,5 +63,5 @@ public class EntityBall extends Entity implements IVelocity, IModel {
 	public float getYVelocity() {
 		return this.velocity.yVel;
 	}
-
+	
 }

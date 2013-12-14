@@ -19,6 +19,14 @@ public class SnakeGame {
 		
 	}
 	
+	public void registerSpecialEntity(String name, Entity ent) {
+		specialEntities.put(name, ent);
+	}
+	
+	public Entity getSpecialEntity(String name) {
+		return specialEntities.get(name);
+	}
+	
 	{
 		this.instantiationTime = System.currentTimeMillis();
 		this.isPaused = false;

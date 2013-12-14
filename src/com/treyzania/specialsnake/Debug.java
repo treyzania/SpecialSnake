@@ -1,35 +1,40 @@
 package com.treyzania.specialsnake;
 
-import java.util.ArrayList;
+import java.util.Random;
 
-import com.treyzania.specialsnake.controllers.ControllerWASD;
-import com.treyzania.specialsnake.core.IReal;
 import com.treyzania.specialsnake.core.PointF;
+import com.treyzania.specialsnake.core.World;
 import com.treyzania.specialsnake.generics.EntityBall;
-import com.treyzania.specialsnake.generics.EntityPlayer;
 
 public class Debug {
 
-	public static void populateEntities(ArrayList<IReal> al) {
+	public static void populateEntities(World w) {
 		
 		SpecialSnake.log.info("Populating arraylist with entities...");
 		
-		EntityPlayer ep = new EntityPlayer();
-		ControllerWASD ctrlWasd = new ControllerWASD(ep);
+		Random r = new Random();
 		
-		//GameRegistry.getGame("main").mainRenderer.registerHandler("playerWASD", ctrlWasd);
+		long oldTime = System.currentTimeMillis();
 		
-		al.add(ep);
-		
-		for (int i = 0; i < 10; i++) {
+		int max = 10000;
+		for (int i = 0; i < max; i++) {
 			
 			EntityBall eb = new EntityBall();
-			eb.setLocation(new PointF(20, 10 * i + 100));
-			eb.setXVelocity(2 * i + 1);
+			eb.setLocation(new PointF(640, 360));
+			eb.setXVelocity((r.nextFloat() * 20) - 10);
+			eb.setYVelocity((r.nextFloat() * 20) - 10);
 			
-			al.add(eb);
+			w.registerThing(eb);
+			
+			try {
+				Thread.sleep(0);
+			} catch (InterruptedException e) { }
 			
 		}
+		
+		long doneTime = System.currentTimeMillis();
+		
+		SpecialSnake.log.info("Created " + max + " entities in " + (doneTime - oldTime) + " milliseconds.");
 		
 	}
 	

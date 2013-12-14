@@ -1,19 +1,15 @@
 package com.treyzania.specialsnake.core;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import com.treyzania.specialsnake.Debug;
 import com.treyzania.specialsnake.GameRegistry;
 
 public class World {
 
-	public static class WorldCalcValues {
-		public static int UVs = 0;
-		public static int UPFVs = 1;
-		public static int TEs = 2;
-	}
-	
-	public int[] data = new int[3];
+	public BufferedImage updateData;
 	
 	public final int width;
 	public final int height;
@@ -23,7 +19,7 @@ public class World {
 	public EntityUpdaterThread tickThread;
 	
 	public float envWindResistanceFactor = 1F;
-	public float envMovementFrictionFactor = 0.99F;
+	public float envMovementFrictionFactor = 0.98F;
 	public float envMinimumNetVelocity = 0.03F;
 	
 	public World(int w, int h) {
@@ -31,8 +27,9 @@ public class World {
 		this.width = w;
 		this.height = h;
 		
+		this.updateData = new BufferedImage(150, 100, BufferedImage.TYPE_INT_ARGB);
+		
 		this.constituents = new ArrayList<IReal>();
-		Debug.populateEntities(constituents);
 		
 		this.tickThread = new EntityUpdaterThread();
 		
@@ -42,10 +39,28 @@ public class World {
 		return tickThread.cm.getUpdatesPerSecond_Fast();
 	}
 	
+	public void registerThing(IReal ireal) {
+		
+		SSPanel ssp = GameRegistry.getGame("main").mainRenderer;
+		
+		ssp.repainting = false;
+		
+		synchronized (this.constituents) {
+			this.constituents.add(ireal);
+		}
+		
+		ssp.repainting = true;
+		
+	}
+	
 	private class EntityUpdaterThread implements Runnable {
 	
 		public CycleMeter cm;
 		private Thread thread;
+		
+		private int ivelocities;
+		private int iticks;
+		private int iticksDone;
 		
 		public EntityUpdaterThread() {
 			
@@ -66,13 +81,35 @@ public class World {
 					updateAllEntities();
 				}
 				
-				cm.updateTime();
-				
-				// Wait until a full tick time is completed.
-				boolean blocking = true;
-				while (blocking) {
-					if (cm.getLatency() > 50F) blocking = false;
+				synchronized (updateData) {
+					
+					Graphics g = updateData.getGraphics();
+					
+					g.fillRect(0, 0, updateData.getWidth(), updateData.getHeight());
+					g.setColor(Color.BLACK);
+					
+					String text1 = "PS/s: " + getTPS() + " (" + cm.getLatency() + " ms)"; // Physics update speed.
+					String text2 = "VelUD #: " + this.ivelocities;
+					String text3 = "Ticks: " + this.iticksDone + "/" + this.iticks;
+					
+					g.drawString(text1, 5, 16);
+					g.drawString(text2, 5, 32);
+					g.drawString(text3, 5, 48);
+					g.drawString("LUDT: " + cm.lastTicking, 5, 64);
+					
 				}
+				
+				this.ivelocities = 0;
+				this.iticks = 0;
+				this.iticksDone = 0;
+				
+				// Wait a little while.
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) { }
+				
+				// This is important for statistics.
+				cm.updateTime();
 				
 			}
 			
@@ -80,24 +117,28 @@ public class World {
 		
 		private void updateAllEntities() {
 			
-			//data[0] = 0;
-			//data[1] = 0;
-			//data[2] = 0;
-			
-			for (IReal e : constituents) {
+			synchronized (constituents) {
 				
-				// Update object velocity, then its position.
-				if (e instanceof IVelocity) {
+				for (IReal e : constituents) {
 					
-					this.iv_updateVelocities(e);
-					this.iv_updatePositionsFromVelocity(e);
+					// Update object velocity, then its position.
+					if (e instanceof IVelocity) {
+						
+						this.iv_updateVelocities(e);
+						this.iv_updatePositionsFromVelocity(e);
+						
+						this.ivelocities++;
+						
+					}
 					
-				}
-				
-				// Do entity behavior ticking.
-				if (e instanceof ITickable) {
-					
-					this.it_tickEntities(e);
+					// Do entity behavior ticking.
+					if (e instanceof ITickable) {
+						
+						this.it_tickEntities(e);
+						
+						this.iticks++;
+						
+					}
 					
 				}
 				
@@ -138,8 +179,6 @@ public class World {
 			eiv.setXVelocity(newXVel);
 			eiv.setYVelocity(newYVel);
 			
-			//data[World.WorldCalcValues.UVs]++;
-			
 		}
 		
 		private void iv_updatePositionsFromVelocity(IReal e) {
@@ -158,16 +197,15 @@ public class World {
 			
 			e.setLocation(new PointF(nx, ny));
 			
-			//data[World.WorldCalcValues.UPFVs]++;
-			
 		}
 		
 		private void it_tickEntities(IReal e) {
 			
 			ITickable eit = (ITickable) e;
-			if (eit.doTick()) eit.tick();	
-			
-			//data[World.WorldCalcValues.TEs]++;
+			if (eit.doTick()) {
+				eit.tick();
+				this.iticksDone++;
+			}
 			
 		}
 		

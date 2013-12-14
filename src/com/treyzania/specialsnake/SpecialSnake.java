@@ -10,10 +10,13 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
+import com.treyzania.specialsnake.controllers.ControllerWASD;
+import com.treyzania.specialsnake.core.PointF;
 import com.treyzania.specialsnake.core.SSPanel;
 import com.treyzania.specialsnake.core.SnakeGame;
 import com.treyzania.specialsnake.core.IVelocity;
 import com.treyzania.specialsnake.core.World;
+import com.treyzania.specialsnake.generics.EntityPlayer;
 
 public class SpecialSnake {
 
@@ -36,8 +39,18 @@ public class SpecialSnake {
 		theGame.theWorld = new World(50, 50);
 		theGame.mainRenderer = new SSPanel(theGame.theWorld);
 		
-		((IVelocity) theGame.theWorld.constituents.get(0)).setXVelocity(5);
-		((IVelocity) theGame.theWorld.constituents.get(0)).setYVelocity(5);
+		EntityPlayer ep = new EntityPlayer();
+		ControllerWASD ctrlWasd = new ControllerWASD(ep);
+		
+		ep.setLocation(new PointF(20, 300));
+		
+		GameRegistry.getGame("main").mainRenderer.registerHandler("playerWASD", ctrlWasd);
+		
+		theGame.theWorld.registerThing(ep);
+		theGame.registerSpecialEntity("player", ep);
+		
+		((IVelocity) theGame.getSpecialEntity("player")).setXVelocity(5);
+		((IVelocity) theGame.getSpecialEntity("player")).setYVelocity(5);
 		
 		frame = new JFrame();
 		frame.setSize(1280, 720);
@@ -49,6 +62,12 @@ public class SpecialSnake {
 		frame.add(theGame.mainRenderer);
 		
 		frame.setVisible(true);
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) { }
+		
+		Debug.populateEntities(theGame.theWorld);
 		
 	}
 	
