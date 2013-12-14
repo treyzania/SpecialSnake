@@ -8,7 +8,7 @@ public class World {
 	public final int width;
 	public final int height;
 	
-	public ArrayList<Entity> entities;
+	public ArrayList<IReal> entities;
 	
 	public EntityUpdaterThread tickThread;
 	
@@ -65,7 +65,7 @@ public class World {
 		
 		private void updateAllEntities() {
 			
-			for (Entity e : entities) {
+			for (IReal e : entities) {
 				
 				// Update object velocity, then its position.
 				if (e instanceof IVelocity) {
@@ -86,7 +86,7 @@ public class World {
 			
 		}
 		
-		private void iv_updateVelocities(Entity e) {
+		private void iv_updateVelocities(IReal e) {
 			
 			IVelocity eiv = (IVelocity) e;
 			
@@ -121,12 +121,12 @@ public class World {
 			
 		}
 		
-		private void iv_updatePositionsFromVelocity(Entity e) {
+		private void iv_updatePositionsFromVelocity(IReal e) {
 			
 			IVelocity eiv = (IVelocity) e;
 			
-			float x = e.x;
-			float y = e.y;
+			float x = e.getLocation().x;
+			float y = e.getLocation().y;
 			float xVel = eiv.getXVelocity();
 			float yVel = eiv.getYVelocity();
 			float nx = 0F;
@@ -135,12 +135,11 @@ public class World {
 			nx = x + xVel;
 			ny = y + yVel;
 			
-			e.x = nx;
-			e.y = ny;
+			e.setLocation(new PointF(nx, ny));
 			
 		}
 		
-		private void it_tickEntities(Entity e) {
+		private void it_tickEntities(IReal e) {
 			
 			ITickable eit = (ITickable) e;
 			if (eit.doTick()) eit.tick();	

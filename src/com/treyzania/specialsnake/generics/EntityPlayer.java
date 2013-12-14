@@ -6,11 +6,11 @@ import com.treyzania.specialsnake.util.ITickable;
 import com.treyzania.specialsnake.util.IVelocity;
 import com.treyzania.specialsnake.util.Model;
 import com.treyzania.specialsnake.util.PointF;
+import com.treyzania.specialsnake.util.VelocityHolder;
 
 public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable {
 
-	public float xVel;
-	public float yVel;
+	private VelocityHolder velocity;
 	public Model model;
 	
 	public EntityPlayer() {
@@ -54,26 +54,22 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 
 	@Override
 	public void setXVelocity(float val) {
-		// TODO Auto-generated method stub
-		
+		this.velocity.xVel = val;
 	}
 
 	@Override
 	public float getXVelocity() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.velocity.xVel;
 	}
 
 	@Override
 	public void setYVelocity(float val) {
-		// TODO Auto-generated method stub
-		
+		this.velocity.yVel = val;
 	}
 
 	@Override
 	public float getYVelocity() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.velocity.yVel;
 	}
 
 }

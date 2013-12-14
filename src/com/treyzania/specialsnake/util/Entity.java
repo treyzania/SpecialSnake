@@ -2,7 +2,7 @@ package com.treyzania.specialsnake.util;
 
 import java.awt.Point;
 
-public abstract class Entity {
+public abstract class Entity implements IReal {
 
 	public float x;
 	public float y;
@@ -15,6 +15,19 @@ public abstract class Entity {
 		
 		this.x = p.x;
 		this.y = p.y;
+		
+	}
+	
+	public PointF getLocation() {
+		
+		return new PointF(x, y);
+		
+	}
+	
+	public void setLocation(PointF point) {
+		
+		this.x = point.x;
+		this.y = point.y;
 		
 	}
 	
