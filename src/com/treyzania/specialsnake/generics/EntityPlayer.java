@@ -1,12 +1,12 @@
 package com.treyzania.specialsnake.generics;
 
-import com.treyzania.specialsnake.util.Entity;
-import com.treyzania.specialsnake.util.IModel;
-import com.treyzania.specialsnake.util.ITickable;
-import com.treyzania.specialsnake.util.IVelocity;
-import com.treyzania.specialsnake.util.Model;
-import com.treyzania.specialsnake.util.PointF;
-import com.treyzania.specialsnake.util.VelocityHolder;
+import com.treyzania.specialsnake.core.Entity;
+import com.treyzania.specialsnake.core.IModel;
+import com.treyzania.specialsnake.core.ITickable;
+import com.treyzania.specialsnake.core.IVelocity;
+import com.treyzania.specialsnake.core.Model;
+import com.treyzania.specialsnake.core.PointF;
+import com.treyzania.specialsnake.core.VelocityHolder;
 
 public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable {
 

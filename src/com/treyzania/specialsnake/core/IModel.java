@@ -1,4 +1,4 @@
-package com.treyzania.specialsnake.util;
+package com.treyzania.specialsnake.core;
 
 
 public interface IModel {

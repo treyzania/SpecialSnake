@@ -1,4 +1,4 @@
-package com.treyzania.specialsnake.util;
+package com.treyzania.specialsnake.core;
 
 import java.util.ArrayList;
 import com.treyzania.specialsnake.GameRegistry;
@@ -107,7 +107,7 @@ public class World {
 			} else {
 				
 				// Do the actual calculations.
-				float mod_wind = (mass * envWindResistanceFactor) / 1000; // Let's hope this is good enough. (A.k.a. "modulation (by) wind")
+				float mod_wind = (mass / envWindResistanceFactor) / 1000; // Let's hope this is good enough. (A.k.a. "modulation (by) wind")
 				float tmod_vel = mod_wind * envMovementFrictionFactor; // A.k.a. "total modulation (of) velocity"
 				
 				newXVel = xVel * tmod_vel;

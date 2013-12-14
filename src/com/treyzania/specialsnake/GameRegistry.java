@@ -2,7 +2,7 @@ package com.treyzania.specialsnake;
 
 import java.util.HashMap;
 
-import com.treyzania.specialsnake.util.SnakeGame;
+import com.treyzania.specialsnake.core.SnakeGame;
 
 public class GameRegistry {
 

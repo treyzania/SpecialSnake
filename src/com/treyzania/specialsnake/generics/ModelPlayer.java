@@ -2,8 +2,8 @@ package com.treyzania.specialsnake.generics;
 
 import java.awt.Graphics;
 
-import com.treyzania.specialsnake.util.IModel;
-import com.treyzania.specialsnake.util.Model;
+import com.treyzania.specialsnake.core.IModel;
+import com.treyzania.specialsnake.core.Model;
 
 public class ModelPlayer extends Model {
 
