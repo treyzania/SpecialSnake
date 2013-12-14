@@ -7,6 +7,8 @@ public abstract class Entity implements IReal {
 	public float x;
 	public float y;
 	
+	public EnumEntityType entityType;
+	
 	public Entity() {
 		
 	}

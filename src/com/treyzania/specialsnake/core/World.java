@@ -8,7 +8,7 @@ public class World {
 	public final int width;
 	public final int height;
 	
-	public ArrayList<IReal> entities;
+	public ArrayList<IReal> constituents;
 	
 	public EntityUpdaterThread tickThread;
 	
@@ -22,6 +22,8 @@ public class World {
 		this.height = h;
 		
 		this.tickThread = new EntityUpdaterThread();
+		
+		this.constituents = new ArrayList<IReal>();
 		
 	}
 	
@@ -65,7 +67,7 @@ public class World {
 		
 		private void updateAllEntities() {
 			
-			for (IReal e : entities) {
+			for (IReal e : constituents) {
 				
 				// Update object velocity, then its position.
 				if (e instanceof IVelocity) {

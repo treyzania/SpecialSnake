@@ -86,6 +86,8 @@ public class CycleMeter implements Runnable {
 	@Override
 	public void run() {
 		
+		// FIXME This code works, I think.
+		
 		/*
 		 * Why do I feel like having this "while (true)" thing is a baaaaaad idea?
 		 * I just hope I did this code properly.

@@ -11,6 +11,8 @@ public class SnakeGame {
 	
 	public boolean isPaused;
 	
+	public SSPanel mainRenderer;
+	
 	public SnakeGame() {
 		
 		this.specialEntities = new HashMap<String, Entity>();

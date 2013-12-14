@@ -8,11 +8,19 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JFrame;
+
+import com.treyzania.specialsnake.core.SSPanel;
+import com.treyzania.specialsnake.core.SnakeGame;
+
 public class SpecialSnake {
 
 	public static Logger log;
 	public static Handler consoleHandler;
 	public static Handler fileHandler;
+	
+	public static SnakeGame theGame;
+	public static JFrame frame;
 	
 	public static void main(String[] args) {
 		
@@ -20,6 +28,19 @@ public class SpecialSnake {
 		log = Logger.getLogger("SnakeGame");
 		setupLogs();
 		logTest();
+		
+		theGame = new SnakeGame();
+		GameRegistry.registerGame("main", theGame);
+		theGame.mainRenderer = new SSPanel(theGame.theWorld);
+		
+		frame = new JFrame();
+		frame.setSize(1280, 720);
+		frame.setResizable(false);
+		frame.setFocusable(true);
+		frame.setEnabled(true);
+		frame.add(theGame.mainRenderer);
+		
+		frame.setVisible(true);
 		
 	}
 	
