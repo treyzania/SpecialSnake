@@ -14,7 +14,6 @@ import com.treyzania.specialsnake.controllers.ControllerWASD;
 import com.treyzania.specialsnake.core.PointF;
 import com.treyzania.specialsnake.core.SSPanel;
 import com.treyzania.specialsnake.core.SnakeGame;
-import com.treyzania.specialsnake.core.IVelocity;
 import com.treyzania.specialsnake.core.World;
 import com.treyzania.specialsnake.generics.EntityPlayer;
 
@@ -49,15 +48,15 @@ public class SpecialSnake {
 		EntityPlayer ep = new EntityPlayer();
 		ControllerWASD ctrlWasd = new ControllerWASD(ep);
 		
-		ep.setLocation(new PointF(20, 300));
+		ep.setLocation(new PointF(1280 / 2, 720 / 2 + 25));
 		
 		GameRegistry.getGame("main").mainRenderer.registerController("playerWASD", ctrlWasd);
 		
 		theGame.theWorld.registerThing(ep);
 		theGame.registerSpecialEntity("player", ep);
 		
-		((IVelocity) theGame.getSpecialEntity("player")).setXVelocity(5);
-		((IVelocity) theGame.getSpecialEntity("player")).setYVelocity(5);
+		//((IVelocity) theGame.getSpecialEntity("player")).setXVelocity(5);
+		//((IVelocity) theGame.getSpecialEntity("player")).setYVelocity(5);
 		
 		frame.add(theGame.mainRenderer);
 		frame.setVisible(true);
@@ -74,7 +73,7 @@ public class SpecialSnake {
 		
 		log.setUseParentHandlers(false); // Hehehehehhhh...
 		
-		// Make the logs foler
+		// Make the logs folder
 		File logsfolder = new File("logs");
 		if (!logsfolder.exists()) {
 			logsfolder.mkdirs();

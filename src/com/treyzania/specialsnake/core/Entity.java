@@ -39,4 +39,8 @@ public abstract class Entity implements IReal, Serializable {
 		this.y = p.y;
 	}
 	
+	public String getEntManifest() {
+		return this.getClass().getSimpleName() + "@" + Long.toHexString(this.hashCode());
+	}
+	
 }

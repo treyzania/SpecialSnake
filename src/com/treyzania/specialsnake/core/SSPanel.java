@@ -89,6 +89,13 @@ public class SSPanel extends JPanel implements Runnable {
 		g.drawString(locText, 20, 40);
 		g.drawString(velText, 20, 55);
 		
+		try {
+			Thread.sleep(0);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			//e1.printStackTrace();
+		}
+		
 		this.renderHandler.updateTime();
 		
 	}

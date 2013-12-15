@@ -3,6 +3,7 @@ package com.treyzania.specialsnake;
 import java.util.Random;
 
 import com.treyzania.specialsnake.core.Entity;
+import com.treyzania.specialsnake.core.EntityLandmark;
 import com.treyzania.specialsnake.core.IReal;
 import com.treyzania.specialsnake.core.IVelocity;
 import com.treyzania.specialsnake.core.PointF;
@@ -19,7 +20,7 @@ public class Debug {
 		
 		long oldTime = System.currentTimeMillis();
 		
-		int max = 5;
+		int max = 500;
 		IReal[] irs = new IReal[max];
 		for (int i = 0; i < max; i++) {
 			
@@ -37,6 +38,10 @@ public class Debug {
 		long doneTime = System.currentTimeMillis();
 		
 		SpecialSnake.log.info("Created & added " + max + " entities in " + (doneTime - oldTime) + " milliseconds.");
+		
+		Entity lm = new EntityLandmark(1280 / 2, 720 / 2);
+		w.registerThing(lm);
+		GameRegistry.getGameFromWorld(w).registerSpecialEntity("center", lm);
 		
 	}
 	

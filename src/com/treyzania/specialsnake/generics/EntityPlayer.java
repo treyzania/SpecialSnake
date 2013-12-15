@@ -1,7 +1,7 @@
 package com.treyzania.specialsnake.generics;
 
 import java.awt.Rectangle;
-import com.treyzania.specialsnake.GameRegistry;
+import com.treyzania.specialsnake.core.EntUtil;
 import com.treyzania.specialsnake.core.Entity;
 import com.treyzania.specialsnake.core.IModel;
 import com.treyzania.specialsnake.core.ITickable;
@@ -9,7 +9,6 @@ import com.treyzania.specialsnake.core.IVelocity;
 import com.treyzania.specialsnake.core.Model;
 import com.treyzania.specialsnake.core.PointF;
 import com.treyzania.specialsnake.core.VelocityHolder;
-import com.treyzania.specialsnake.core.World;
 
 public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable, Runnable {
 
@@ -35,49 +34,13 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 	
 	@Override
 	public boolean doTick() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public void tick() {
 		
-		World w = GameRegistry.getGame("main").theWorld;
-		Object[] objs = w.getInstancesOf(EntityBug.class);
 		
-		double totalXFactor = 0F;
-		double totalYFactor = 0F;
-		
-		//System.out.println("Bug #: " + objs.length);
-		
-		double bugFactor = 0.5F;
-		
-		for (Object o : objs) {
-			
-			EntityBug b = (EntityBug) o;
-			
-			double diffX = b.getLocation().x - this.x;
-			double diffY = b.getLocation().y - this.y;
-			
-			double xFactor = ( 1 / diffX ) * bugFactor;
-			double yFactor = ( 1 / diffY ) * bugFactor;
-			
-			totalXFactor += xFactor;
-			totalYFactor += yFactor;
-			
-		}
-		
-		float velScale = 0.4F;
-		
-		float adjXVel = (float) (this.getXVelocity() + ((totalXFactor * -1) / objs.length));
-		float adjYVel = (float) (this.getYVelocity() + ((totalYFactor * -1) / objs.length));
-		
-		if (adjXVel > 10) adjXVel = 10F;
-		if (adjXVel < -10) adjXVel = -10F;
-		if (adjYVel > 10) adjYVel = 10F;
-		if (adjYVel < -10) adjYVel = -10F;
-		
-		this.setXVelocity(adjXVel * 2);
-		this.setYVelocity(adjYVel * 2);
 		
 	}
 
@@ -126,12 +89,9 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 		
 		while (true) {
 			
-			Rectangle r = GameRegistry.getGame("main").mainRenderer.getBounds();
-			System.out.println("X: " + r.x + ", Y: " + r.y + ", W: " + r.width + ", H: " + r.height);
-			
-			if (System.currentTimeMillis() % 10000 == 0 || !r.contains(this.getLocation())) {
+			if (System.currentTimeMillis() % 2500 == 0) {
 				
-				this.setLocation(new PointF(1280 / 2 + 1, 720 / 2 + 1));
+				EntUtil.placeEntityInRegion(this, new Rectangle(128, 72, 1280 - (128 * 2), 720 - (72 * 2)));
 				
 				this.setXVelocity(0);
 				this.setYVelocity(0);

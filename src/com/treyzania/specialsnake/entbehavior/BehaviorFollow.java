@@ -9,16 +9,16 @@ public class BehaviorFollow extends Behavior implements IRandanomity {
 
 	private float randanomity;
 	
-	public Class<? extends Entity> followedObjectType;
+	public Entity followed;
 	public double okDistance;
 	public float distDivisor;
 	public float slowdownRate = 0.99F;
 	
-	public BehaviorFollow(Entity ent, Class<? extends Entity> followedEntType, double okDistance, float distDivisor) {
+	public BehaviorFollow(Entity ent, Entity followed, double okDistance, float distDivisor) {
 		
 		super(ent);
 		
-		this.followedObjectType = followedEntType;
+		this.followed = followed;
 		this.okDistance = okDistance;
 		this.distDivisor = distDivisor;
 		
@@ -48,38 +48,33 @@ public class BehaviorFollow extends Behavior implements IRandanomity {
 		float adjXVel = 0F;
 		float adjYVel = 0F;
 		
-		Object[] objs = ent.myWorld.getInstancesOf(this.followedObjectType);
-		for (Object o : objs) {
+		double dist = followed.getLocation().distance(ent.getLocation());
+		
+		if (dist > okDistance) {
 			
-			Entity e = (Entity) o;
+			// Calculate differences in position.
+			float diffX = followed.x - ent.x;
+			float diffY = followed.y - ent.y;
 			
-			double dist = e.getLocation().distance(e.getLocation());
+			// Calculate the new ones.
+			adjXVel = diffX / this.distDivisor;
+			adjYVel = diffY / this.distDivisor;
 			
-			if (dist > okDistance) {
-				
-				// Calculate differences in position.
-				float diffX = e.x - ent.x;
-				float diffY = e.y - ent.y;
-				
-				// Calculate the new ones.
-				adjXVel = diffX / this.distDivisor;
-				adjYVel = diffY / this.distDivisor;
-				
-			} else {
-				
-				adjXVel = oldXVel * this.slowdownRate;
-				adjYVel = oldYVel * this.slowdownRate;
-				
-			}
+		} else {
+			
+			adjXVel = oldXVel * this.slowdownRate;
+			adjYVel = oldYVel * this.slowdownRate;
 			
 		}
+		
+		
 		
 		if (this.randanomity != 0) {
 			
 			// Add a little bit of randanomity to the values, for realism.
 			Random r = new Random();
-			adjXVel += ((r.nextFloat() * this.randanomity) - (this.randanomity / 2)) / objs.length;
-			adjYVel += ((r.nextFloat() * this.randanomity) - (this.randanomity / 2)) / objs.length;
+			adjXVel += (r.nextFloat() * this.randanomity) - (this.randanomity / 2);
+			adjYVel += (r.nextFloat() * this.randanomity) - (this.randanomity / 2);
 			
 		}
 		

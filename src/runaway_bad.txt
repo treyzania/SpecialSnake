@@ -1,0 +1,48 @@
+World w = GameRegistry.getGame("main").theWorld;
+Object[] objs = w.getInstancesOf(EntityBug.class);
+
+double totalXFactor = 0F;
+double totalYFactor = 0F;
+
+//System.out.println("Bug #: " + objs.length);
+
+double bugFactor = 7.5F;
+
+int counted = 1;
+
+for (Object o : objs) {
+	
+	EntityBug b = (EntityBug) o;
+	
+	if (this.getLocation().distance(b.getLocation()) < 200) {
+		
+		double diffX = b.getLocation().x - this.x;
+		double diffY = b.getLocation().y - this.y;
+		
+		double xFactor = ( 1 / diffX ) * bugFactor;
+		double yFactor = ( 1 / diffY ) * bugFactor;
+		
+		totalXFactor += xFactor;
+		totalYFactor += yFactor;
+		
+		counted++;
+		
+		SpecialSnake.log.info("MX: " + this.x + ", MY: " + this.y + ", IX:" + b.getLocation().x + ", IY:" + b.getLocation().y);
+		SpecialSnake.log.info("BXD: " + xFactor + ", BYD: " + yFactor);
+		
+	}
+	
+}
+
+float adjXVel = (float) totalXFactor / counted;
+float adjYVel = (float) totalYFactor / counted;
+
+if (adjXVel > 10) adjXVel = 10F;
+if (adjXVel < -10) adjXVel = -10F;
+if (adjYVel > 10) adjYVel = 10F;
+if (adjYVel < -10) adjYVel = -10F;
+
+System.out.println("New XV: " + adjXVel + ", New YV: " + adjYVel);
+
+this.setXVelocity(this.getXVelocity() + adjXVel * -1.0F);
+this.setYVelocity(this.getYVelocity() + adjYVel * -1.0F);

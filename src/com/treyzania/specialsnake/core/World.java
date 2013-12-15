@@ -20,7 +20,7 @@ public class World {
 	public EntityUpdaterThread tickThread;
 	
 	public float envWindResistanceFactor = 1F;
-	public float envMovementFrictionFactor = 0.98F;
+	public float envMovementFrictionFactor = 0.995F;
 	public float envMinimumNetVelocity = 0.03F;
 	
 	public World(int w, int h) {
@@ -166,7 +166,7 @@ public class World {
 				
 				// Wait a little while.
 				try {
-					Thread.sleep(50);
+					Thread.sleep(25);
 				} catch (InterruptedException e) { }
 				
 				// This is important for statistics.

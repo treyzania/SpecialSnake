@@ -1,5 +1,6 @@
 package com.treyzania.specialsnake.generics;
 
+import com.treyzania.specialsnake.GameRegistry;
 import com.treyzania.specialsnake.core.Entity;
 import com.treyzania.specialsnake.core.IBehavior;
 import com.treyzania.specialsnake.core.IModel;
@@ -29,12 +30,13 @@ public class EntityBug extends Entity implements IVelocity, ITickable, IModel, I
 		
 		this.doAi = ai;
 		
+		
 	}
 	
 	@Override
 	public void tick() {
 		
-		
+		// Hi.
 		
 	}
 	
@@ -50,7 +52,7 @@ public class EntityBug extends Entity implements IVelocity, ITickable, IModel, I
 	
 	@Override
 	public float getMass() {
-		return 100;
+		return 10F;
 	}
 
 	@Override
@@ -81,7 +83,9 @@ public class EntityBug extends Entity implements IVelocity, ITickable, IModel, I
 	@Override
 	public Behavior[] getBehaviors() {
 		
-		BehaviorFollow bf = new BehaviorFollow(this, EntityPlayer.class, 25D, 100F);
+		BehaviorFollow bf = new BehaviorFollow(this, GameRegistry.getGame("main").getSpecialEntity("player"), 100D, 10F);
+		
+		bf.setRandanomity(3F);
 		
 		return new Behavior[] {bf};
 		
@@ -91,5 +95,5 @@ public class EntityBug extends Entity implements IVelocity, ITickable, IModel, I
 	public void addBehavior(Behavior beh) {
 		// Nothing.
 	}
-
+	
 }
