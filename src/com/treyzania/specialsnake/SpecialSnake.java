@@ -34,6 +34,13 @@ public class SpecialSnake {
 		setupLogs();
 		logTest();
 		
+		frame = new JFrame();
+		frame.setSize(1280, 720);
+		frame.setResizable(false);
+		frame.setFocusable(true);
+		frame.setEnabled(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		theGame = new SnakeGame();
 		GameRegistry.registerGame("main", theGame);
 		theGame.theWorld = new World(50, 50);
@@ -44,7 +51,7 @@ public class SpecialSnake {
 		
 		ep.setLocation(new PointF(20, 300));
 		
-		GameRegistry.getGame("main").mainRenderer.registerHandler("playerWASD", ctrlWasd);
+		GameRegistry.getGame("main").mainRenderer.registerController("playerWASD", ctrlWasd);
 		
 		theGame.theWorld.registerThing(ep);
 		theGame.registerSpecialEntity("player", ep);
@@ -52,19 +59,11 @@ public class SpecialSnake {
 		((IVelocity) theGame.getSpecialEntity("player")).setXVelocity(5);
 		((IVelocity) theGame.getSpecialEntity("player")).setYVelocity(5);
 		
-		frame = new JFrame();
-		frame.setSize(1280, 720);
-		frame.setResizable(false);
-		frame.setFocusable(true);
-		frame.setEnabled(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		frame.add(theGame.mainRenderer);
-		
 		frame.setVisible(true);
 		
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) { }
 		
 		Debug.populateEntities(theGame.theWorld);

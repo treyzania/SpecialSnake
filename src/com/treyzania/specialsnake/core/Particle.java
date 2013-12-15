@@ -12,16 +12,11 @@ public class Particle implements IReal, IVelocity, ITickable, IModel {
 	}
 
 	@Override
-	public boolean hasPosition() {
+	public boolean hasLocation() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public PointF getPosition() {
-		return this.loc;
-	}
-
+	
 	@Override
 	public boolean hasVelocity() {
 		return true;

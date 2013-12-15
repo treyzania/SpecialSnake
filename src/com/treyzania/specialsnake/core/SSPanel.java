@@ -2,7 +2,6 @@ package com.treyzania.specialsnake.core;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -33,15 +32,14 @@ public class SSPanel extends JPanel implements Runnable {
 		this.repainter = new Thread(this, "SSPanel-Repainter");
 		repainter.start();
 		
+		this.setFocusable(true);
+		
 	}
 	
-	public void registerHandler(String key, Controller controller) {
+	public void registerController(String name, Controller controller) {
 		
-		controllers.put(key, controller);
-		
-		if (controller instanceof KeyListener) {
-			this.addKeyListener((KeyListener) controller);
-		}
+		controllers.put(name, controller);
+		this.addKeyListener(controller);
 		
 	}
 	

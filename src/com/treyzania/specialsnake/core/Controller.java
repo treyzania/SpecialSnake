@@ -1,5 +1,7 @@
 package com.treyzania.specialsnake.core;
 
+import java.awt.event.KeyListener;
+
 /**
  * A way to bridge the gap between the world and the UI.  Controllers an be linked and de-linked easily, without
  * causing problems with 
@@ -7,7 +9,7 @@ package com.treyzania.specialsnake.core;
  * 
  * @author Treyzania
  */
-public abstract class Controller {
+public abstract class Controller implements KeyListener {
 
 	public Entity myEntity;
 	

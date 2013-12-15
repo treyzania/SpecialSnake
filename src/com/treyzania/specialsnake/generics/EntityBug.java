@@ -1,25 +1,40 @@
 package com.treyzania.specialsnake.generics;
 
 import com.treyzania.specialsnake.core.Entity;
+import com.treyzania.specialsnake.core.IBehavior;
 import com.treyzania.specialsnake.core.IModel;
+import com.treyzania.specialsnake.core.ITickable;
 import com.treyzania.specialsnake.core.IVelocity;
 import com.treyzania.specialsnake.core.Model;
 import com.treyzania.specialsnake.core.VelocityHolder;
+import com.treyzania.specialsnake.entbehavior.Behavior;
+import com.treyzania.specialsnake.entbehavior.BehaviorFollow;
 
-public class EntityBall extends Entity implements IVelocity, IModel {
+public class EntityBug extends Entity implements IVelocity, ITickable, IModel, IBehavior {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8834350308819599495L;
+	private static final long serialVersionUID = 2905001986085281921L;
 	
 	private VelocityHolder velocity;
 	private Model model;
 	
-	public EntityBall() {
+	public boolean doAi;
+	
+	public EntityBug(boolean ai) {
 		
 		this.velocity = new VelocityHolder();
-		this.model = new ModelBall(this);
+		this.model = new ModelBug(this);
+		
+		this.doAi = ai;
+		
+	}
+	
+	@Override
+	public void tick() {
+		
+		
 		
 	}
 	
@@ -57,5 +72,24 @@ public class EntityBall extends Entity implements IVelocity, IModel {
 	public float getYVelocity() {
 		return this.velocity.yVel;
 	}
-	
+
+	@Override
+	public boolean doTick() {
+		return this.doAi;
+	}
+
+	@Override
+	public Behavior[] getBehaviors() {
+		
+		BehaviorFollow bf = new BehaviorFollow(this, EntityPlayer.class, 25D, 100F);
+		
+		return new Behavior[] {bf};
+		
+	}
+
+	@Override
+	public void addBehavior(Behavior beh) {
+		// Nothing.
+	}
+
 }

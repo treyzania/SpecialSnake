@@ -17,6 +17,42 @@ public class ControllerWASD extends ControllerKeypress {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
+
+		int key = e.getKeyCode();
+		
+		IVelocity iv = (IVelocity) this.myEntity;
+		
+		float xVel = iv.getXVelocity();
+		float yVel = iv.getYVelocity();
+		
+		if (key == KeyEvent.VK_W) {
+			
+			yVel = -1;
+			
+		}
+		
+		if (key == KeyEvent.VK_S) {
+			
+			yVel = 1;
+			
+		}
+		
+		if (key == KeyEvent.VK_A) {
+			
+			xVel = -1;
+			
+		}
+		
+		if (key == KeyEvent.VK_D) {
+			
+			xVel = 1;
+			
+		}
+		
+		iv.setXVelocity(xVel);
+		iv.setYVelocity(yVel);
+		
+		
 	}
 
 	@Override
@@ -26,44 +62,6 @@ public class ControllerWASD extends ControllerKeypress {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		
-		String key = KeyEvent.getKeyText(e.getKeyCode()).toLowerCase();
-		
-		IVelocity iv = (IVelocity) this.myEntity;
-		
-		float xVel = iv.getXVelocity();
-		float yVel = iv.getYVelocity();
-		
-		if (key.contains("w")) {
-			
-			xVel += 0;
-			yVel += -1;
-			
-		}
-		
-		if (key.contains("s")) {
-			
-			xVel += 0;
-			yVel += 1;
-			
-		}
-		
-		if (key.contains("a")) {
-			
-			xVel += -1;
-			yVel += 0;
-			
-		}
-		
-		if (key.contains("d")) {
-			
-			xVel += 1;
-			yVel = 0;
-			
-		}
-		
-		iv.setXVelocity(xVel);
-		iv.setYVelocity(yVel);
 		
 	}
 

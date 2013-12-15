@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import com.treyzania.specialsnake.GameRegistry;
+import com.treyzania.specialsnake.entbehavior.Behavior;
 
 public class World {
 
@@ -46,7 +47,13 @@ public class World {
 		ssp.repainting = false;
 		
 		synchronized (this.constituents) {
+			
 			this.constituents.add(ireal);
+			
+			if (ireal instanceof Entity) {
+				((Entity) ireal).myWorld = this;
+			}
+			
 		}
 		
 		ssp.repainting = true;
@@ -65,11 +72,41 @@ public class World {
 				
 				this.constituents.add(ireal);
 				
+				if (ireal instanceof Entity) {
+					((Entity) ireal).myWorld = this;
+				}
+				
 			}
 			
 		}
 		
 		ssp.repainting = true;
+		
+	}
+	
+	public Object[] getInstancesOf(Class<? extends Object> clazz) {
+		
+		SSPanel ssp = GameRegistry.getGame("main").mainRenderer;
+		ArrayList<IReal> things = new ArrayList<IReal>();
+		
+		ssp.repainting = false;
+		
+		synchronized (this.constituents) {
+			
+			for (IReal ireal : constituents) {
+				
+				// If the IReal is an isntance of the "clazz".
+				if (ireal.getClass().equals(clazz)) {
+					things.add(ireal);
+				}
+				
+			}
+			
+		}
+		
+		ssp.repainting = true;
+		
+		return (Object[]) things.toArray();
 		
 	}
 	
@@ -81,6 +118,7 @@ public class World {
 		private int ivelocities;
 		private int iticks;
 		private int iticksDone;
+		private int ibehaviors;
 		
 		public EntityUpdaterThread() {
 			
@@ -111,17 +149,20 @@ public class World {
 					String text1 = "PS/s: " + getTPS() + " (" + cm.getLatency() + " ms)"; // Physics update speed.
 					String text2 = "VelUD #: " + this.ivelocities;
 					String text3 = "Ticks: " + this.iticksDone + "/" + this.iticks;
+					String text5 = "Behs.: " + this.ibehaviors; // No number 4, simpler.
 					
 					g.drawString(text1, 5, 16);
 					g.drawString(text2, 5, 32);
 					g.drawString(text3, 5, 48);
-					g.drawString("LUDT: " + cm.lastTicking, 5, 64);
+					g.drawString("LUDT: " + cm.lastTicking, 5, 64); // #4 here.
+					g.drawString(text5, 5, 80);
 					
 				}
 				
 				this.ivelocities = 0;
 				this.iticks = 0;
 				this.iticksDone = 0;
+				this.ibehaviors = 0;
 				
 				// Wait a little while.
 				try {
@@ -157,6 +198,14 @@ public class World {
 						this.it_tickEntities(e);
 						
 						this.iticks++;
+						
+					}
+					
+					if (e instanceof IBehavior) {
+						
+						this.ib_callBehaviors(e);
+						
+						this.ibehaviors++;
 						
 					}
 					
@@ -225,6 +274,17 @@ public class World {
 			if (eit.doTick()) {
 				eit.tick();
 				this.iticksDone++;
+			}
+			
+		}
+		
+		private void ib_callBehaviors(IReal e) {
+			
+			IBehavior ib = (IBehavior) e;
+			Behavior[] behaviors = ib.getBehaviors();
+			
+			for (Behavior b : behaviors) {
+				b.doAi();
 			}
 			
 		}

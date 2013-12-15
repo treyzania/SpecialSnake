@@ -5,8 +5,8 @@ public interface IModel {
 
 	public Model getModel();
 	
-	public boolean hasPosition();
-	public PointF getPosition();
+	public boolean hasLocation();
+	public PointF getLocation();
 	
 	public boolean hasVelocity();
 	public float getXVelocity();

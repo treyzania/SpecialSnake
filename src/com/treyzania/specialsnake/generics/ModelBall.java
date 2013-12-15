@@ -17,7 +17,7 @@ public class ModelBall extends Model {
 		
 		super.draw(g);
 		
-		PointF p = owner.getPosition();
+		PointF p = owner.getLocation();
 		
 		g.drawLine((int) p.x - 2, (int) p.y - 2, (int) p.x + 2, (int) p.y + 2);
 		g.drawLine((int) p.x - 2, (int) p.y + 2, (int) p.x + 2, (int) p.y - 2);
