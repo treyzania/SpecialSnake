@@ -10,6 +10,8 @@ public abstract class Entity implements IReal, Serializable {
 	 */
 	private static final long serialVersionUID = 3886060011217538663L;
 	
+	private final long creationTime;
+	
 	public World myWorld = null;
 	
 	public float x = 0F;
@@ -19,8 +21,15 @@ public abstract class Entity implements IReal, Serializable {
 	
 	public Entity() {
 		
+		this.creationTime = System.currentTimeMillis();
+		
 	}
 	
+	@Override
+	public long getCreationTime() {
+		return this.creationTime;
+	}
+
 	public final boolean hasLocation() {
 		return true;
 	}

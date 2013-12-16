@@ -10,4 +10,6 @@ public interface IReal {
 	public PointF getLocation();
 	public void setLocation(PointF point);
 	
+	public long getCreationTime();
+	
 }

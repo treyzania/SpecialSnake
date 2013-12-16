@@ -3,9 +3,10 @@ package com.treyzania.specialsnake.core;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.JPanel;
+
+import com.treyzania.specialsnake.GameRegistry;
 
 public class SSPanel extends JPanel implements Runnable {
 
@@ -13,8 +14,7 @@ public class SSPanel extends JPanel implements Runnable {
 	 * 
 	 */
 	private static final long serialVersionUID = -7139656492559642044L;
-
-	public HashMap<String, Controller> controllers;
+	
 	public World world; 
 	
 	public CycleMeter renderHandler;
@@ -25,7 +25,6 @@ public class SSPanel extends JPanel implements Runnable {
 	public SSPanel(World world) {
 		
 		this.world = world;
-		this.controllers = new HashMap<String, Controller>();
 		
 		this.renderHandler = new CycleMeter(false);
 		
@@ -33,13 +32,6 @@ public class SSPanel extends JPanel implements Runnable {
 		repainter.start();
 		
 		this.setFocusable(true);
-		
-	}
-	
-	public void registerController(String name, Controller controller) {
-		
-		controllers.put(name, controller);
-		this.addKeyListener(controller);
 		
 	}
 	
@@ -82,7 +74,7 @@ public class SSPanel extends JPanel implements Runnable {
 		String fpsText = "FPS: " + renderHandler.getUpdatesPerSecond_Fast() + " (" + renderHandler.getLatency() + " ms)";
 		g.drawString(fpsText, 20, 20);
 		
-		Entity e = (Entity) world.constituents.get(0);
+		Entity e = GameRegistry.getGameFromWorld(this.world).getSpecialEntity("player");
 		IVelocity iv = (IVelocity) e;
 		String locText = "X: " + e.x + ", Y: " + e.y;
 		String velText = "XVel : " + iv.getXVelocity() + ", YVel: " + iv.getYVelocity();
@@ -108,7 +100,7 @@ public class SSPanel extends JPanel implements Runnable {
 			if (this.repainting) this.repaint();
 			
 			try {
-				Thread.sleep(3);
+				Thread.sleep(0);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -87,7 +87,9 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 	@Override
 	public void run() {
 		
-		while (true) {
+		boolean looooooop = false; // I wanted a fancy name.
+		
+		while (looooooop) {
 			
 			if (System.currentTimeMillis() % 2500 == 0) {
 				

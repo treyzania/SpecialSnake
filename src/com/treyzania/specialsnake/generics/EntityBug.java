@@ -4,14 +4,13 @@ import com.treyzania.specialsnake.GameRegistry;
 import com.treyzania.specialsnake.core.Entity;
 import com.treyzania.specialsnake.core.IBehavior;
 import com.treyzania.specialsnake.core.IModel;
-import com.treyzania.specialsnake.core.ITickable;
 import com.treyzania.specialsnake.core.IVelocity;
 import com.treyzania.specialsnake.core.Model;
 import com.treyzania.specialsnake.core.VelocityHolder;
 import com.treyzania.specialsnake.entbehavior.Behavior;
 import com.treyzania.specialsnake.entbehavior.BehaviorFollow;
 
-public class EntityBug extends Entity implements IVelocity, ITickable, IModel, IBehavior {
+public class EntityBug extends Entity implements IVelocity, IModel, IBehavior {
 
 	/**
 	 * 
@@ -21,22 +20,10 @@ public class EntityBug extends Entity implements IVelocity, ITickable, IModel, I
 	private VelocityHolder velocity;
 	private Model model;
 	
-	public boolean doAi;
-	
-	public EntityBug(boolean ai) {
+	public EntityBug() {
 		
 		this.velocity = new VelocityHolder();
 		this.model = new ModelBug(this);
-		
-		this.doAi = ai;
-		
-		
-	}
-	
-	@Override
-	public void tick() {
-		
-		// Hi.
 		
 	}
 	
@@ -76,14 +63,9 @@ public class EntityBug extends Entity implements IVelocity, ITickable, IModel, I
 	}
 
 	@Override
-	public boolean doTick() {
-		return this.doAi;
-	}
-
-	@Override
 	public Behavior[] getBehaviors() {
 		
-		BehaviorFollow bf = new BehaviorFollow(this, GameRegistry.getGame("main").getSpecialEntity("player"), 100D, 10F);
+		BehaviorFollow bf = new BehaviorFollow(this, GameRegistry.getGame("main").getSpecialEntity("player"), 125D, 2F);
 		
 		bf.setRandanomity(3F);
 		

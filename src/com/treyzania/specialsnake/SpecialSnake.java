@@ -10,12 +10,9 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
-import com.treyzania.specialsnake.controllers.ControllerWASD;
-import com.treyzania.specialsnake.core.PointF;
 import com.treyzania.specialsnake.core.SSPanel;
 import com.treyzania.specialsnake.core.SnakeGame;
 import com.treyzania.specialsnake.core.World;
-import com.treyzania.specialsnake.generics.EntityPlayer;
 
 public class SpecialSnake {
 
@@ -31,7 +28,7 @@ public class SpecialSnake {
 		// Steal a bit of code from ZaniDL...
 		log = Logger.getLogger("SnakeGame");
 		setupLogs();
-		logTest();
+		//logTest();
 		
 		frame = new JFrame();
 		frame.setSize(1280, 720);
@@ -44,22 +41,12 @@ public class SpecialSnake {
 		GameRegistry.registerGame("main", theGame);
 		theGame.theWorld = new World(50, 50);
 		theGame.mainRenderer = new SSPanel(theGame.theWorld);
-		
-		EntityPlayer ep = new EntityPlayer();
-		ControllerWASD ctrlWasd = new ControllerWASD(ep);
-		
-		ep.setLocation(new PointF(1280 / 2, 720 / 2 + 25));
-		
-		GameRegistry.getGame("main").mainRenderer.registerController("playerWASD", ctrlWasd);
-		
-		theGame.theWorld.registerThing(ep);
-		theGame.registerSpecialEntity("player", ep);
-		
-		//((IVelocity) theGame.getSpecialEntity("player")).setXVelocity(5);
-		//((IVelocity) theGame.getSpecialEntity("player")).setYVelocity(5);
+		theGame.mainWin = frame;
 		
 		frame.add(theGame.mainRenderer);
 		frame.setVisible(true);
+		
+		Debug.initalizeGame(theGame);
 		
 		try {
 			Thread.sleep(1000);
@@ -98,6 +85,7 @@ public class SpecialSnake {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private static void logTest() {
 		
 		String logTestPrefix = "{LOGTEST}";

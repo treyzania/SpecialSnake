@@ -2,18 +2,24 @@ package com.treyzania.specialsnake.core;
 
 public class Particle implements IReal, IVelocity, ITickable, IModel {
 
+	private final long creationTime;
+	
 	PointF loc;
 	VelocityHolder vel;
 	
+	public Particle() {
+		
+		this.creationTime = System.currentTimeMillis();
+		
+	}
+	
 	@Override
 	public Model getModel() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean hasLocation() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
@@ -28,7 +34,7 @@ public class Particle implements IReal, IVelocity, ITickable, IModel {
 	}
 
 	@Override
-	public void tick() {	}
+	public void tick() { }
 
 	@Override
 	public float getMass() {
@@ -57,13 +63,17 @@ public class Particle implements IReal, IVelocity, ITickable, IModel {
 
 	@Override
 	public PointF getLocation() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.loc;
 	}
 
 	@Override
 	public void setLocation(PointF point) {
 		this.loc = point;
+	}
+
+	@Override
+	public long getCreationTime() {
+		return this.creationTime;
 	}
 
 }

@@ -8,9 +8,13 @@ import com.treyzania.specialsnake.core.IVelocity;
 
 public class ControllerWASD extends ControllerKeypress {
 
-	public ControllerWASD(Entity entity) {
+	public float movementFactor;
+	
+	public ControllerWASD(Entity entity, float factor) {
 		
 		super(entity);
+		
+		this.movementFactor = factor;
 		
 	}
 
@@ -27,25 +31,25 @@ public class ControllerWASD extends ControllerKeypress {
 		
 		if (key == KeyEvent.VK_W) {
 			
-			yVel = -1;
+			yVel = this.movementFactor * -1;
 			
 		}
 		
 		if (key == KeyEvent.VK_S) {
 			
-			yVel = 1;
+			yVel = this.movementFactor * 1;
 			
 		}
 		
 		if (key == KeyEvent.VK_A) {
 			
-			xVel = -1;
+			xVel = this.movementFactor * -1;
 			
 		}
 		
 		if (key == KeyEvent.VK_D) {
 			
-			xVel = 1;
+			xVel = this.movementFactor * 1;
 			
 		}
 		
