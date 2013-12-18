@@ -3,6 +3,7 @@ package com.treyzania.specialsnake;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 
+import com.treyzania.specialsnake.controllers.ControllerReset;
 import com.treyzania.specialsnake.controllers.ControllerVelocityScaler;
 import com.treyzania.specialsnake.controllers.ControllerWASD;
 import com.treyzania.specialsnake.core.Entity;
@@ -25,7 +26,7 @@ public class Debug {
 		
 		long oldTime = System.currentTimeMillis();
 		
-		int max = 500;
+		int max = 0;
 		IReal[] irs = new IReal[max];
 		for (int i = 0; i < max; i++) {
 			
@@ -55,11 +56,13 @@ public class Debug {
 		SpecialSnake.log.info("Intializing game...");
 		
 		EntityPlayer ep = new EntityPlayer();
-		ControllerWASD ctrlWasd = new ControllerWASD(ep, 5F);
-		ControllerVelocityScaler ctrlVS = new ControllerVelocityScaler(ep, 0.25F, KeyEvent.VK_SHIFT);
+		ControllerWASD ctrlWasd = new ControllerWASD(ep, 1F);
+		ControllerVelocityScaler ctrlVS = new ControllerVelocityScaler(ep, 0.2F, KeyEvent.VK_SHIFT);
+		ControllerReset ctrlRst = new ControllerReset(ep, KeyEvent.VK_SPACE, new PointF(0, 0));
 		
 		game.addController("player_ctrl", ctrlWasd);
 		game.addController("player_slowdown", ctrlVS);
+		game.addController("player_reset", ctrlRst);
 		
 		ep.setLocation(new PointF(1280 / 2, 720 / 2 + 25));
 		

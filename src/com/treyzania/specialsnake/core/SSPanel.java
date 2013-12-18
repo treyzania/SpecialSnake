@@ -75,11 +75,13 @@ public class SSPanel extends JPanel implements Runnable {
 		g.drawString(fpsText, 20, 20);
 		
 		Entity e = GameRegistry.getGameFromWorld(this.world).getSpecialEntity("player");
-		IVelocity iv = (IVelocity) e;
-		String locText = "X: " + e.x + ", Y: " + e.y;
-		String velText = "XVel : " + iv.getXVelocity() + ", YVel: " + iv.getYVelocity();
-		g.drawString(locText, 20, 40);
-		g.drawString(velText, 20, 55);
+		if (e != null) {
+			IVelocity iv = (IVelocity) e;
+			String locText = "X: " + e.x + ", Y: " + e.y;
+			String velText = "XVel : " + iv.getXVelocity() + ", YVel: " + iv.getYVelocity();
+			g.drawString(locText, 20, 40);
+			g.drawString(velText, 20, 55);
+		}
 		
 		try {
 			Thread.sleep(0);
