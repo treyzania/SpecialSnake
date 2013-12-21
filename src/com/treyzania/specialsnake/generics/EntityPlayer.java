@@ -46,7 +46,7 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 		
 		this.direction = EnumDirection.NORTH;
 		this.movementTracker = new CycleMeter(false);
-		this.relativeSegLocations = new Point[16];
+		this.relativeSegLocations = new Point[256];
 		
 	}
 	
@@ -63,25 +63,11 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 		
 	}
 	
-	public int getEmptySegments() {
-		return (this.relativeSegLocations.length - this.getFilledSegments());
-	}
-	
-	public int getFilledSegments() {
-		
-		int out = 0;
-		for (Point p : this.relativeSegLocations) {
-			if (p != null) out++;
-		}
-		return out;
-		
-	}
-	
 	@Override
 	public void tick() {
 		
+		// Segment updating.
 		Point p = this.getSegmentPos(0);
-		
 		if (!p.equals(this.relativeSegLocations[0])) {
 			
 			// Pick up Bikini Bottom, and push it somewhere else...!
@@ -105,6 +91,23 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 			SpecialSnake.log.info(sb.toString());
 			
 		}
+		
+		// Velocity movement lock.
+		// TODO Make this into something.
+		
+	}
+	
+	public int getEmptySegments() {
+		return (this.relativeSegLocations.length - this.getFilledSegments());
+	}
+	
+	public int getFilledSegments() {
+		
+		int out = 0;
+		for (Point p : this.relativeSegLocations) {
+			if (p != null) out++;
+		}
+		return out;
 		
 	}
 	
@@ -159,7 +162,7 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 	
 	@Override
 	public float getMass() {
-		return 100;
+		return 25F;
 	}
 
 	@Override

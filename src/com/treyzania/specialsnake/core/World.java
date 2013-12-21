@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import com.treyzania.specialsnake.GameRegistry;
+import com.treyzania.specialsnake.SpecialSnake;
 import com.treyzania.specialsnake.entbehavior.Behavior;
 
 public class World {
@@ -180,32 +181,42 @@ public class World {
 			
 			synchronized (constituents) {
 				
-				for (IReal e : constituents) {
+				for (IReal ent : constituents) {
 					
-					// Update object velocity, then its position.
-					if (e instanceof IVelocity) {
+					try {
 						
-						this.iv_updateVelocities(e);
-						this.iv_updatePositionsFromVelocity(e);
+						// Update the object's velocity, then its position.
+						if (ent instanceof IVelocity) {
+							
+							this.iv_updateVelocities(ent);
+							this.iv_updatePositionsFromVelocity(ent);
+							
+							this.ivelocities++;
+							
+						}
 						
-						this.ivelocities++;
+						// Do object custom ticking.
+						if (ent instanceof ITickable) {
+							
+							this.it_tickEntities(ent);
+							
+							this.iticks++;
+							
+						}
 						
-					}
-					
-					// Do entity behavior ticking.
-					if (e instanceof ITickable) {
+						// Do the behavior ticking.
+						if (ent instanceof IBehavior) {
+							
+							this.ib_callBehaviors(ent);
+							
+							this.ibehaviors++;
+							
+						}
 						
-						this.it_tickEntities(e);
+					} catch (Exception e) {
 						
-						this.iticks++;
-						
-					}
-					
-					if (e instanceof IBehavior) {
-						
-						this.ib_callBehaviors(e);
-						
-						this.ibehaviors++;
+						// I hope that this is alright enough.  It still doesn't terminate the process...
+						SpecialSnake.log.severe("[EXCEPTION] " + e.getClass().getSimpleName() + ": " + e.getMessage());
 						
 					}
 					
@@ -215,7 +226,7 @@ public class World {
 			
 		}
 		
-		private void iv_updateVelocities(IReal e) {
+		private void iv_updateVelocities(IReal e) throws EntityMassException {
 			
 			IVelocity eiv = (IVelocity) e;
 			
@@ -235,12 +246,19 @@ public class World {
 				
 			} else {
 				
-				// Do the actual calculations.
-				float mod_wind = 1 - (envWindResistanceFactor / mass); // Let's hope this is good enough. (A.k.a. "modulation (by) wind")
-				float tmod_vel = mod_wind * envMovementFrictionFactor; // A.k.a. "total modulation (of) velocity"
-				
-				newXVel = xVel * tmod_vel;
-				newYVel = yVel * tmod_vel;
+				// Nested ifs?  Why not?
+				if (mass != 0) {
+					
+					// Do the actual calculations.
+					float mod_wind = 1 - (envWindResistanceFactor / mass); // Let's hope this is good enough. (A.k.a. "modulation (by) wind")
+					float tmod_vel = mod_wind * envMovementFrictionFactor; // A.k.a. "total modulation (of) velocity"
+					
+					newXVel = xVel * tmod_vel;
+					newYVel = yVel * tmod_vel;
+					
+				} else {
+					throw new EntityMassException("Entity mass cannot be " + mass + "!");
+				}
 				
 			}
 			

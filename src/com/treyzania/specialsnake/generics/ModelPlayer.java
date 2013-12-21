@@ -39,13 +39,17 @@ public class ModelPlayer extends Model {
 		
 		Rectangle[] rects = ((EntityPlayer) this.owner).getSegments();
 		
-		for (int i = 0; i < rects.length; i++) {
+		// This loop took a bit of experimenting to get it to work, it needed to loop though the array backwards to render the segments properly.
+		for (int i = rects.length - 1; i >= 0; i--) {
 			
 			Rectangle r = rects[i];
 			
 			if (r != null) {
 				
-				g.setColor(new Color(255, (i / rects.length) * 255, 255));
+				float colorModFactor = ((float) i) / ((float) rects.length);
+				int colorValue = (int) Math.floor(colorModFactor * 255);
+				
+				g.setColor(new Color(colorValue, 255 - colorValue, 0));
 				g.fillRect(r.x, r.y, r.width, r.height);
 				
 				g.setColor(Color.BLACK);
