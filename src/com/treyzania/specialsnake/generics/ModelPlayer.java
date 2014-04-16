@@ -27,10 +27,13 @@ public class ModelPlayer extends Model {
 		drawBody(g); // Draw the body itself.
 		
 		// Draw more accurate location data. (Let's call it the "head".)
+		/*
 		g.setColor(Color.WHITE);
 		g.fillOval((int) pf.x - 2, (int) pf.y - 2, 4, 4);
 		g.setColor(Color.BLACK);
 		g.drawOval((int) pf.x - 2, (int) pf.y - 2, 4, 4);
+		*/
+		g.drawLine((int) pf.x, (int) pf.y, (int) pf.x, (int) pf.y);
 		g.drawString(((Entity) owner).getEntManifest(), (int) pf.x, (int) pf.y - 5);
 		
 	}

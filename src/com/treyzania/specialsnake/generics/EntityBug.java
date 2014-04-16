@@ -65,7 +65,7 @@ public class EntityBug extends Entity implements IVelocity, IModel, IBehavior {
 	@Override
 	public Behavior[] getBehaviors() {
 		
-		BehaviorFollow bf = new BehaviorFollow(this, GameRegistry.getGame("main").getSpecialEntity("player"), 80D, 8F);
+		BehaviorFollow bf = new BehaviorFollow(this, GameRegistry.getGame("main").getSpecialEntity("player"), 150D, 30F);
 		
 		bf.setRandanomity(3F);
 		

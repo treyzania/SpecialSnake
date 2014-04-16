@@ -30,7 +30,7 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 	public EnumDirection direction;
 	
 	public Point lastPos; // I feel like I'm doing this right.
-	public Point[] relativeSegLocations;
+	public Point[] segmentPositions;
 	
 	private CycleMeter movementTracker;
 	
@@ -46,7 +46,25 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 		
 		this.direction = EnumDirection.NORTH;
 		this.movementTracker = new CycleMeter(false);
-		this.relativeSegLocations = new Point[256];
+		this.segmentPositions = new Point[16];
+		
+	}
+	
+	public void setBodyLength(int size) {
+		
+		Point[] nextPoints = new Point[size];
+		
+		int nl = size;
+		
+		if (size > this.segmentPositions.length) size = this.segmentPositions.length;
+		
+		for (int i = 0; i < nl; i++) {
+			
+			nextPoints[i] = this.segmentPositions[i];
+			
+		}
+		
+		this.segmentPositions = nextPoints;
 		
 	}
 	
@@ -68,19 +86,19 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 		
 		// Segment updating.
 		Point p = this.getSegmentPos(0);
-		if (!p.equals(this.relativeSegLocations[0])) {
+		if (!p.equals(this.segmentPositions[0])) {
 			
 			// Pick up Bikini Bottom, and push it somewhere else...!
-			Point[] oldPoints = this.relativeSegLocations.clone();
-			for (int i = 0; i < (this.relativeSegLocations.length - 1); i++) {
-				this.relativeSegLocations[i + 1] = oldPoints[i];
+			Point[] oldPoints = this.segmentPositions.clone();
+			for (int i = 0; i < (this.segmentPositions.length - 1); i++) {
+				this.segmentPositions[i + 1] = oldPoints[i];
 			}
-			this.relativeSegLocations[0] = p;
+			this.segmentPositions[0] = p;
 			
 			// Spam...
 			StringBuilder sb = new StringBuilder();
 			sb.append("Player Segments:");
-			for (Point tp : this.relativeSegLocations) {
+			for (Point tp : this.segmentPositions) {
 				if (tp != null) {
 					sb.append(" {" + tp.x + ", " + tp.y + "},");
 				} else {
@@ -98,13 +116,13 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 	}
 	
 	public int getEmptySegments() {
-		return (this.relativeSegLocations.length - this.getFilledSegments());
+		return (this.segmentPositions.length - this.getFilledSegments());
 	}
 	
 	public int getFilledSegments() {
 		
 		int out = 0;
-		for (Point p : this.relativeSegLocations) {
+		for (Point p : this.segmentPositions) {
 			if (p != null) out++;
 		}
 		return out;
@@ -122,8 +140,8 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 		
 		Point p = new Point(x, y);
 		
-		if (segId > 0 && this.relativeSegLocations[segId] != null) {
-			p.translate(this.relativeSegLocations[segId].x, this.relativeSegLocations[segId].y);
+		if (segId > 0 && this.segmentPositions[segId] != null) {
+			p.translate(this.segmentPositions[segId].x, this.segmentPositions[segId].y);
 		}
 		
 		return new Point(p.x / CELL_SIZE, p.y / CELL_SIZE);
@@ -132,11 +150,11 @@ public class EntityPlayer extends Entity implements IVelocity, IModel, ITickable
 	
 	public Rectangle[] getSegments() {
 		
-		Rectangle[] out = new Rectangle[this.relativeSegLocations.length];
+		Rectangle[] out = new Rectangle[this.segmentPositions.length];
 		
-		for (int i = 0; i < this.relativeSegLocations.length; i++) {
+		for (int i = 0; i < this.segmentPositions.length; i++) {
 			
-			Point testPoint = this.relativeSegLocations[i];
+			Point testPoint = this.segmentPositions[i];
 			
 			if (testPoint != null) {
 				

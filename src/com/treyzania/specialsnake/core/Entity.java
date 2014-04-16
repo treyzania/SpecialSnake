@@ -2,6 +2,7 @@ package com.treyzania.specialsnake.core;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public abstract class Entity implements IReal, Serializable {
 
@@ -13,6 +14,7 @@ public abstract class Entity implements IReal, Serializable {
 	private final long creationTime;
 	
 	public World myWorld = null;
+	public ArrayList<Controller> controllers = null;
 	
 	public float x = 0F;
 	public float y = 0F;
@@ -22,6 +24,7 @@ public abstract class Entity implements IReal, Serializable {
 	public Entity() {
 		
 		this.creationTime = System.currentTimeMillis();
+		this.controllers = new ArrayList<Controller>();
 		
 	}
 	

@@ -59,6 +59,7 @@ public class SSPanel extends JPanel implements Runnable {
 		for (Model m : modelsToRender) {
 			// Then actually render the models.
 			m.draw(g);
+			g.setColor(Color.BLACK);
 		}
 		
 		

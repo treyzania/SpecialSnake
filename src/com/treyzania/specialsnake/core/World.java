@@ -213,6 +213,19 @@ public class World {
 							
 						}
 						
+						// Controller behavior.
+						if (ent instanceof Entity) {
+							
+							Entity e = (Entity) ent;
+							
+							for (Controller ctrl : e.controllers) {
+								
+								ctrl.tick();
+								
+							}
+							
+						}
+						
 					} catch (Exception e) {
 						
 						// I hope that this is alright enough.  It still doesn't terminate the process...

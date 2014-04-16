@@ -16,6 +16,14 @@ public abstract class Controller implements KeyListener {
 	public Controller(Entity entity) {
 		
 		this.myEntity = entity;
+		entity.controllers.add(this);
+		
+	}
+	
+	/**
+	 * Called every time the world ticks.  Used in certain cases.
+	 */
+	public void tick() {
 		
 	}
 	

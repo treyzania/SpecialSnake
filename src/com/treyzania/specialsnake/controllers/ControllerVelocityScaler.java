@@ -11,6 +11,8 @@ public class ControllerVelocityScaler extends ControllerKeypress {
 	public float velocityFactor;
 	public int keycode;
 	
+	public boolean state = false; 
+	
 	public ControllerVelocityScaler(Entity entity, float factor, int keycode) {
 		
 		super(entity);
@@ -19,13 +21,12 @@ public class ControllerVelocityScaler extends ControllerKeypress {
 		this.keycode = keycode;
 		
 	}
-
+	
+	
 	@Override
-	public void keyPressed(KeyEvent arg0) {
+	public void tick() {
 		
-		int key = arg0.getKeyCode();
-		
-		if (key == this.keycode) {
+		if (state) {
 			
 			IVelocity iv = (IVelocity) this.myEntity;
 			
@@ -37,7 +38,20 @@ public class ControllerVelocityScaler extends ControllerKeypress {
 	}
 
 	@Override
+	public void keyPressed(KeyEvent arg0) {
+		
+		if (arg0.getKeyCode() == this.keycode) {
+			state = true;
+		}
+		
+	}
+
+	@Override
 	public void keyReleased(KeyEvent arg0) {
+		
+		if (arg0.getKeyCode() == this.keycode) {
+			state = false;
+		}
 		
 	}
 
